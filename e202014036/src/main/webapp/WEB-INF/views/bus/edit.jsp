@@ -62,8 +62,8 @@ button {
 				</tr>
 				<tr>
 					<td>학과:</td>
-					<td><form:select path="categoryName" itemValue="id"
-							itemLabel="categoryName" items="${ categorys }" /></td>
+					<td><form:select path="categoryId" itemValue="id"
+							itemLabel="categoryName" items="${categories}" /></td>
 				</tr>
 				<tr>
 					<td>첫차:</td>

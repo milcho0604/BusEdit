@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import net.skhu.dto.Bus;
+import net.skhu.dto.Category;
 import net.skhu.mapper.BusMapper;
 import net.skhu.mapper.CategoryMapper;
 
@@ -17,10 +18,13 @@ import net.skhu.mapper.CategoryMapper;
 @RequestMapping("bus")
 public class BusController {
 
-    @Autowired BusMapper busMapper;
-    @Autowired CategoryMapper categoryMapper;
+    @Autowired
+    private BusMapper busMapper;
 
-    @RequestMapping("list")
+    @Autowired
+    private CategoryMapper categoryMapper;
+
+    @GetMapping("list")
     public String list(Model model) {
         List<Bus> buses = busMapper.findAll();
         model.addAttribute("buses", buses);
@@ -30,34 +34,34 @@ public class BusController {
     @GetMapping("create")
     public String create(Model model) {
         Bus bus = new Bus();
-        List<net.skhu.dto.Category> categorys = categoryMapper.findAll();
+        List<Category> categories = categoryMapper.findAll();
         model.addAttribute("bus", bus);
-        model.addAttribute("category", categorys);
+        model.addAttribute("categories", categories);
         return "bus/edit";
     }
 
     @PostMapping("create")
-    public String create(Model model, Bus bus) {
+    public String create(Bus bus) {
         busMapper.insert(bus);
-        return "redirect:list";
+        return "redirect:/bus/list";
     }
 
     @GetMapping("edit")
     public String edit(Model model, int id) {
         Bus bus = busMapper.findOne(id);
-        List<net.skhu.dto.Category> categorys = categoryMapper.findAll();
+        List<Category> categories = categoryMapper.findAll();
         model.addAttribute("bus", bus);
-        model.addAttribute("categorys", categorys);
+        model.addAttribute("categories", categories);
         return "bus/edit";
     }
 
     @PostMapping("edit")
-    public String edit(Model model, Bus bus) {
+    public String edit(Bus bus) {
         busMapper.update(bus);
-        return "redirect:list";
+        return "redirect:/bus/list";
     }
 
-    @RequestMapping("delete")
+    @GetMapping("delete")
     public String delete(Model model, int id) {
         busMapper.delete(id);
         return "redirect:list";
